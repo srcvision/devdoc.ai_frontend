@@ -1,9 +1,8 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
-dotenv.config();  
+ 
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: "https://devdoc-ai-backend-2346.onrender.com/api",
   headers: { 'Content-Type': 'application/json' },
 });
 
