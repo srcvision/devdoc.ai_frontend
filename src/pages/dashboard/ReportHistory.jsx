@@ -1,159 +1,232 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../api/axios';
-import { History, Trash2, ExternalLink, Search, Filter } from 'lucide-react';
-import toast from 'react-hot-toast';
+import ResultPanel from '../../components/ResultPanel';
+import {
+  Code2, Bug, ShieldCheck, Zap, Star, Building2,
+  Github, Terminal, BookOpen, Clock, ArrowRight,
+  Search, Filter, Activity, Trash2, ChevronDown
+} from 'lucide-react';
 
-const toolColors = {
-  'code-review': 'badge-info', 'bug-detect': 'badge-danger', 'security-scan': 'badge-success',
-  'performance': 'badge-warning', 'code-quality': 'badge-brand', 'architecture': 'badge-info',
-  'github-analyze': 'badge', 'debug': 'badge-danger', 'explain': 'badge-brand',
-};
-
-const toolLabels = {
-  'code-review': 'Code Review', 'bug-detect': 'Bug Detect', 'security-scan': 'Security',
-  'performance': 'Performance', 'code-quality': 'Quality', 'architecture': 'Architecture',
-  'github-analyze': 'GitHub', 'debug': 'Debug', 'explain': 'Explain',
-};
+const tools = [
+  { id: 'code-review',  label: 'Code Review',   icon: Code2,       color: '#60a5fa' },
+  { id: 'bug-detector', label: 'Bug Detect',  icon: Bug,         color: '#FB3640' },
+  { id: 'security',     label: 'Security',      icon: ShieldCheck, color: '#34d399' },
+  { id: 'performance',  label: 'Performance',   icon: Zap,         color: '#fbbf24' },
+  { id: 'code-quality', label: 'Code Quality',  icon: Star,        color: '#a78bfa' },
+  { id: 'architecture', label: 'Architecture',  icon: Building2,   color: '#22d3ee' },
+  { id: 'github',       label: 'GitHub Repo',   icon: Github,      color: '#f9fafb' },
+  { id: 'debug',        label: 'Debug',         icon: Terminal,    color: '#f472b6' },
+  { id: 'explain',      label: 'Explainer',     icon: BookOpen,    color: '#818cf8' },
+];
 
 export default function ReportHistory() {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+  const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [filterTool, setFilterTool] = useState('all');
-  const [selected, setSelected] = useState(null);
   const [deleting, setDeleting] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   useEffect(() => {
-    api.get('/tools/reports').then(({ data }) => setReports(data)).catch(() => toast.error('Failed to load reports')).finally(() => setLoading(false));
+    fetchHistory();
   }, []);
 
-  const handleDelete = async (id) => {
-    setDeleting(id);
+  const fetchHistory = async () => {
     try {
-      await api.delete(`/tools/reports/${id}`);
-      setReports((r) => r.filter((rep) => rep._id !== id));
-      if (selected?._id === id) setSelected(null);
-      toast.success('Report deleted');
-    } catch {
-      toast.error('Failed to delete report');
+      const { data } = await api.get('/tools/reports');
+      setReports(Array.isArray(data) ? data : (data.reports || []));
+    } catch (err) {
+      setError(err.response?.data?.error || 'Failed to load history');
     } finally {
-      setDeleting(null);
+      setLoading(false);
     }
   };
 
-  const filtered = reports.filter((r) => {
-    const matchTool = filterTool === 'all' || r.toolType === filterTool;
-    const matchSearch = !search || r.inputCode.toLowerCase().includes(search.toLowerCase()) || (toolLabels[r.toolType] || '').toLowerCase().includes(search.toLowerCase());
-    return matchTool && matchSearch;
+  const handleDelete = async (id, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Delete button clicked for ID:', id);
+    if (window.confirm('Are you sure you want to delete this report?')) {
+      console.log('User confirmed deletion for:', id);
+      setDeleting(id);
+      try {
+        console.log('Calling API: DELETE', `/tools/reports/${id}`);
+        const response = await api.delete(`/tools/reports/${id}`);
+        console.log('API Response:', response.data);
+        setReports(r => r.filter(rep => rep._id !== id));
+        if (selected?._id === id) setSelected(null);
+        console.log('Report removed from state.');
+      } catch (err) {
+        console.error('Delete API Error:', err);
+        setError(err.response?.data?.error || 'Failed to delete report');
+      } finally {
+        setDeleting(null);
+      }
+    } else {
+      console.log('User cancelled deletion.');
+    }
+  };
+
+  const filteredReports = reports.filter(r => {
+    const matchesSearch =
+      (r.language || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (r.toolType || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesTool = filterTool === 'all' || r.toolType === filterTool;
+    return matchesSearch && matchesTool;
   });
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="tool-header">
-        <div className="tool-icon-wrapper bg-gradient-to-br from-teal-500 to-cyan-600">
-          <History size={22} />
-        </div>
+    <div className="max-w-7xl mx-auto animate-fade-in pb-12">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white">Report History</h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">All your previous AI analysis reports. Click any entry to view the full result.</p>
+          <h1 className="text-3xl font-black tracking-tight text-white mb-2">History</h1>
+          <p className="text-white/60">View past analysis reports and recommendations.</p>
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3">
+      {/* Controls */}
+      <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="relative flex-1">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search reports..." className="input pl-9 h-10 bg-black text-sm" />
+          <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+          <input
+            type="text"
+            placeholder="Search by language or tool..."
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 bg-[#050505] border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-brand/50 focus:ring-1 focus:ring-red-brand/50 transition-colors shadow-lg"
+          />
         </div>
-        <div className="relative">
-          <Filter size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-          <select value={filterTool} onChange={(e) => setFilterTool(e.target.value)} className="text-slate-100 input pl-9 h-10 bg-black text-sm w-48">
-            <option value="all">All Tools</option>
-            {Object.entries(toolLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+        <div className="relative flex-shrink-0 min-w-[200px]">
+          <Filter size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+          <select
+            value={filterTool}
+            onChange={e => setFilterTool(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 bg-[#050505] border border-white/10 rounded-xl text-white appearance-none focus:outline-none focus:border-red-brand/50 focus:ring-1 focus:ring-red-brand/50 transition-colors cursor-pointer shadow-lg"
+          >
+            <option value="all" className="bg-[#0a0a0a]">All Tools</option>
+            {tools.map(t => (
+              <option key={t.id} value={t.id} className="bg-[#0a0a0a]">{t.label}</option>
+            ))}
           </select>
         </div>
       </div>
 
-      {loading ? (
-        <div className="card p-12 flex items-center justify-center">
-          <div className="w-8 h-8 border-2 border-brand-600 border-t-transparent rounded-full animate-spin" />
-        </div>
-      ) : filtered.length === 0 ? (
-        <div className="card p-12 flex flex-col items-center justify-center gap-4 text-center">
-          <div className="w-16 h-16 rounded-2xl dark:bg-surface-800 flex items-center justify-center text-3xl">📋</div>
-          <p className="text-gray-500 dark:text-gray-400 font-medium">No reports found</p>
-          <p className="text-gray-400 text-sm">Run an analysis using any AI tool to see reports here</p>
-          <Link to="/dashboard/code-review" className="btn-primary mt-2">Start first analysis</Link>
-        </div>
-      ) : (
-        <div className={`grid gap-4 ${selected ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'}`}>
-          {/* Report list */}
-          <div className="card overflow-hidden">
-            <div className="divide-y divide-gray-50 dark:divide-gray-700/30">
-              {filtered.map((r) => (
-                <div
-                  key={r._id}
-                  onClick={() => setSelected(r._id === selected?._id ? null : r)}
-                  className={`flex items-start gap-4 px-5 py-4 cursor-pointer hover:bg-black bg-ink transition-colors ${selected?._id === r._id ? 'bg-brand-50/50 dark:bg-brand-900/10' : ''}`}
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className={`badge ${toolColors[r.toolType] || 'badge-info'} text-[10px]`}>{toolLabels[r.toolType] || r.toolType}</span>
-                      {r.language && <span className="text-[10px] text-gray-400">{r.language}</span>}
-                      {r.score?.overall && <span className="badge badge-success text-[10px] ml-auto">Score: {r.score.overall}/10</span>}
-                    </div>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 truncate font-mono">
-                      {r.inputCode.slice(0, 80)}...
-                    </p>
-                    <p className="text-xs text-gray-400 mt-1">{new Date(r.createdAt).toLocaleString()}</p>
-                  </div>
-                  <div className="flex items-center gap-1 flex-shrink-0">
-                    <button onClick={(e) => { e.stopPropagation(); setSelected(r); }} className="btn-ghost py-1.5 px-2 text-xs" title="View">
-                      <ExternalLink size={13} />
-                    </button>
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleDelete(r._id); }}
-                      disabled={deleting === r._id}
-                      className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-400 transition-colors"
-                      title="Delete"
-                    >
-                      {deleting === r._id ? <span className="w-3.5 h-3.5 border-2 border-red-400 border-t-transparent rounded-full animate-spin block" /> : <Trash2 size={13} />}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Selected report detail */}
-          {selected && (
-            <div className="card overflow-hidden animate-fade-in">
-              <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className={`badge ${toolColors[selected.toolType] || 'badge-info'}`}>{toolLabels[selected.toolType]}</span>
-                  <span className="text-xs text-gray-400">{new Date(selected.createdAt).toLocaleString()}</span>
-                </div>
-                <button onClick={() => setSelected(null)} className="text-gray-400 hover:text-gray-600 text-xs">✕ Close</button>
-              </div>
-              <div className="p-5 overflow-y-auto max-h-[600px]">
-                <div className="mb-4">
-                  <p className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">Input</p>
-                  <pre className="bg-gray-50 dark:bg-surface-950 rounded-xl p-4 text-xs font-mono text-gray-700 dark:text-gray-300 overflow-x-auto whitespace-pre-wrap">
-                    {selected.inputCode.slice(0, 500)}{selected.inputCode.length > 500 ? '...' : ''}
-                  </pre>
-                </div>
-                <div>
-                  <p className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">AI Response</p>
-                  <div className="prose prose-sm dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 text-xs">
-                    {selected.aiResponse.slice(0, 1500)}{selected.aiResponse.length > 1500 ? '...' : ''}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+      {error && (
+        <div className="p-4 mb-8 bg-red-brand/10 border border-red-brand/20 text-red-brand rounded-xl">
+          {error}
         </div>
       )}
+
+      {/* List */}
+      <div className="grid gap-4">
+        {loading ? (
+          [...Array(4)].map((_, i) => (
+            <div key={i} className="bg-[#050505] border border-white/10 rounded-2xl p-6 h-32 animate-pulse" />
+          ))
+        ) : filteredReports.length > 0 ? (
+          filteredReports.map(r => {
+            const t = tools.find(tool => r.toolType.includes(tool.id)) || { label: r.toolType, icon: Activity, color: '#FB3640' };
+            const Icon = t.icon;
+            const isSelected = selected?._id === r._id;
+            
+            return (
+              <div 
+                key={r._id} 
+                onClick={() => setSelected(isSelected ? null : r)}
+                className={`group block bg-[#050505] border rounded-2xl p-6 transition-all shadow-lg cursor-pointer ${isSelected ? 'border-white/20 bg-white/[0.04]' : 'border-white/10 hover:bg-white/[0.04] hover:border-white/20'}`}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                  {/* Icon & title */}
+                  <div className="flex items-center gap-4 flex-1">
+                    <div 
+                      className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105"
+                      style={{ background: `${t.color}15`, color: t.color }}
+                    >
+                      <Icon size={24} />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-white group-hover:text-[var(--color)] transition-colors mb-1" style={{ '--color': t.color }}>
+                        {t.label}
+                      </h3>
+                      <div className="flex items-center gap-3 text-sm text-white/50">
+                        <span className="flex items-center gap-1.5 font-medium">
+                          <Clock size={14} />
+                          {new Date(r.createdAt).toLocaleString()}
+                        </span>
+                        {r.language && (
+                          <span className="px-2 py-0.5 rounded-full bg-white/10 text-xs font-black uppercase tracking-widest text-white">
+                            {r.language}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Context snippet & Score */}
+                  <div className="flex flex-col sm:items-end gap-3 flex-shrink-0">
+                    <div className="flex items-center gap-4">
+                      {r.score?.overall != null && (
+                        <div className="flex items-baseline gap-1" style={{ color: t.color }}>
+                          <span className="text-3xl font-black">{r.score.overall}</span>
+                          <span className="text-sm font-bold opacity-50">/10</span>
+                        </div>
+                      )}
+                      
+                      <button
+                        onClick={(e) => handleDelete(r._id, e)}
+                        disabled={deleting === r._id}
+                        className="p-2 rounded-lg bg-red-brand/10 hover:bg-red-brand/20 text-red-brand transition-colors shadow-lg ml-2"
+                        title="Delete Report"
+                      >
+                        {deleting === r._id ? (
+                           <span className="w-5 h-5 border-2 border-red-brand border-t-transparent rounded-full animate-spin block" />
+                        ) : (
+                           <Trash2 size={20} />
+                        )}
+                      </button>
+                    </div>
+
+                    <span className="flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-white/30 group-hover:text-white/60 transition-colors">
+                      {isSelected ? 'Hide details' : 'View full report'} 
+                      <ChevronDown size={16} className={`transition-transform duration-300 ${isSelected ? 'rotate-180' : ''}`} />
+                    </span>
+                  </div>
+                </div>
+
+                {/* Expanded Details Section */}
+                {isSelected && (
+                  <div className="mt-8 pt-6 border-t border-white/10 animate-fade-in cursor-default" onClick={e => e.stopPropagation()}>
+                    {r.inputCode && (
+                      <div className="mb-6">
+                        <p className="text-[10px] font-black uppercase tracking-widest mb-3 text-white/30">Input Context</p>
+                        <pre className="rounded-xl p-5 text-[13px] font-mono overflow-x-auto whitespace-pre-wrap border border-white/5 bg-white/[0.02] text-white/70 max-h-[300px] custom-scrollbar">
+                          {r.inputCode}
+                        </pre>
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-widest mb-3 text-white/30">AI Analysis Report</p>
+                      <div className="bg-[#000000] border border-white/5 rounded-xl overflow-hidden p-6 ring-1 ring-white/5">
+                        <ResultPanel content={r.aiResponse} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })
+        ) : (
+          <div className="text-center py-24 bg-[#050505] border border-white/10 rounded-3xl shadow-lg">
+            <Activity size={48} className="mx-auto text-white/20 mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">No reports found</h3>
+            <p className="text-white/50">Try running an analysis using one of the tools in the sidebar.</p>
+          </div>
+        )}
+      </div>
+
     </div>
   );
 }

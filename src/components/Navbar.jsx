@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Sun, Moon, Bell } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { Bell } from 'lucide-react';
 
 const breadcrumbMap = {
   '/dashboard': 'Overview',
@@ -18,50 +17,46 @@ const breadcrumbMap = {
 };
 
 export default function Navbar() {
-  const { isDark, toggle } = useTheme();
   const { pathname } = useLocation();
   const pageName = breadcrumbMap[pathname] || 'Dashboard';
+  const isOverview = pathname === '/dashboard';
 
   return (
-    <header
-      className="h-14 flex items-center gap-4 px-6 sticky top-0 z-20 flex-shrink-0"
-      style={{
-        background: '#000F08',
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
-      }}
-    >
+    <header className="h-12 flex items-center gap-4 px-5 flex-shrink-0"
+      style={{ background: '#000', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm flex-1">
-        <Link to="/dashboard" className="transition-colors" style={{ color: 'rgba(255,255,255,0.3)' }}
+      <div className="flex items-center gap-2 text-xs flex-1">
+        <Link to="/dashboard" className="transition-colors font-medium"
+          style={{ color: 'rgba(255,255,255,0.3)' }}
           onMouseEnter={e => e.currentTarget.style.color = '#FB3640'}
           onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.3)'}>
           devdoc.ai
         </Link>
-        {pathname !== '/dashboard' && (
+        {!isOverview && (
           <>
-            <span style={{ color: 'rgba(255,255,255,0.15)' }}>/</span>
-            <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.85)' }}>{pageName}</span>
+            <span style={{ color: 'rgba(255,255,255,0.12)' }}>/</span>
+            <span className="font-semibold" style={{ color: 'rgba(255,255,255,0.7)' }}>{pageName}</span>
           </>
         )}
       </div>
 
+      {/* Right actions */}
       <div className="flex items-center gap-1.5">
-        {/* Notification */}
-        <button className="relative w-8 h-8 flex items-center justify-center rounded-lg transition-colors"
-          style={{ color: 'rgba(255,255,255,0.35)' }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; }}>
-          <Bell size={16} />
-          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full" style={{ background: '#FB3640' }} />
-        </button>
+        {/* Live indicator */}
+        <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold"
+          style={{ background: 'rgba(251,54,64,0.1)', color: '#FB3640' }}>
+          <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+          AI Online
+        </div>
 
-        {/* Theme toggle */}
-        <button onClick={toggle} aria-label="Toggle theme"
-          className="w-8 h-8 flex items-center justify-center rounded-lg transition-colors"
-          style={{ color: 'rgba(255,255,255,0.35)' }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.35)'; }}>
-          {isDark ? <Sun size={16} className="text-yellow-400" /> : <Moon size={16} />}
+        {/* Notification */}
+        <button className="relative w-7 h-7 flex items-center justify-center rounded-lg transition-colors"
+          style={{ color: 'rgba(255,255,255,0.3)' }}
+          onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; }}
+          onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.3)'; e.currentTarget.style.background = 'transparent'; }}>
+          <Bell size={14} />
+          <span className="absolute top-1 right-1 w-1.5 h-1.5 rounded-full" style={{ background: '#FB3640' }} />
         </button>
       </div>
     </header>

@@ -1,60 +1,59 @@
 import React, { useState } from 'react';
 
-const LANGUAGES = ['javascript', 'typescript', 'python', 'java', 'go', 'rust', 'php', 'cpp', 'plaintext'];
+const LANGUAGES = ['javascript', 'typescript', 'python', 'java', 'go', 'rust', 'php', 'cpp', 'c', 'ruby', 'swift', 'plaintext'];
 
-export default function CodeEditor({ value, onChange, placeholder = 'Paste your code here...', label, minRows = 16 }) {
+export default function CodeEditor({ value, onChange, placeholder = 'Paste your code here...', label, minRows = 14 }) {
   const [lang, setLang] = useState('javascript');
-  const [wordCount] = useState(() => value?.split(/\s+/).filter(Boolean).length || 0);
-
   const lineCount = value ? value.split('\n').length : 0;
-  const charCount = value ? value.length : 0;
+  const charCount = value?.length || 0;
 
   return (
-    <div className="card overflow-hidden">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 dark:border-gray-700/50 bg-gray-50 dark:bg-surface-900">
+    <div className="overflow-hidden rounded-2xl" style={{ background: '#000', border: '1px solid rgba(255,255,255,0.07)' }}>
+      {/* Editor toolbar */}
+      <div className="flex items-center justify-between px-4 py-2.5"
+        style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
         <div className="flex items-center gap-3">
+          {/* Traffic lights */}
           <div className="flex gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-red-400" />
-            <span className="w-3 h-3 rounded-full bg-yellow-400" />
-            <span className="w-3 h-3 rounded-full bg-emerald-400" />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#FB3640' }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#fbbf24' }} />
+            <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#34d399' }} />
           </div>
-          <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">{label || 'Code Editor'}</span>
+          <span className="text-xs font-semibold" style={{ color: 'rgba(255,255,255,0.3)' }}>{label || 'Code Input'}</span>
         </div>
+
         <div className="flex items-center gap-3">
-          <span className="text-xs text-gray-400">{lineCount} lines · {charCount} chars</span>
-          <select
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
-            className="text-xs bg-gray-100 dark:bg-surface-800 border border-gray-200 dark:border-gray-700 
-                       rounded-lg px-2 py-1 text-gray-600 dark:text-gray-300 
-                       focus:outline-none focus:ring-1 focus:ring-brand-500"
-          >
-            {LANGUAGES.map((l) => (
-              <option key={l} value={l}>{l}</option>
-            ))}
-          </select>
+          <span className="text-[10px]" style={{ color: 'rgba(255,255,255,0.2)' }}>
+            {lineCount} ln · {charCount} ch
+          </span>
+          
         </div>
       </div>
 
-      {/* Editor */}
-      <div className="relative">
+      {/* Editor area */}
+      <div className="relative flex" style={{ minHeight: `${Math.max(lineCount + 2, minRows) * 24}px` }}>
         {/* Line numbers */}
-        <div className="absolute left-0 top-0 bottom-0 w-10 flex flex-col items-end pt-4 pr-2 border-r border-gray-100 dark:border-gray-700/30 select-none pointer-events-none overflow-hidden">
-          {Array.from({ length: Math.max(lineCount, minRows) }, (_, i) => (
-            <span key={i} className="text-xs text-gray-300 dark:text-gray-600 leading-6 font-mono">{i + 1}</span>
+        <div className="flex flex-col items-end pt-4 px-3 select-none pointer-events-none flex-shrink-0"
+          style={{ background: 'rgba(255,255,255,0.01)', borderRight: '1px solid rgba(255,255,255,0.04)', minWidth: 40 }}>
+          {Array.from({ length: Math.max(lineCount + 2, minRows) }, (_, i) => (
+            <span key={i} className="font-mono leading-6 text-[11px]"
+              style={{ color: 'rgba(255,255,255,0.15)', lineHeight: '24px' }}>{i + 1}</span>
           ))}
         </div>
+
+        {/* Textarea */}
         <textarea
           value={value}
-          onChange={(e) => onChange(e.target.value)}
+          onChange={e => onChange(e.target.value)}
           placeholder={placeholder}
           rows={Math.max(lineCount + 2, minRows)}
           spellCheck={false}
-          className="w-full pl-14 pr-4 py-4 bg-white dark:bg-surface-950 
-                     text-gray-900 dark:text-gray-100 font-mono text-sm leading-6
-                     resize-none focus:outline-none focus:ring-0
-                     placeholder-gray-300 dark:placeholder-gray-700"
+          className="flex-1 px-4 py-4 font-mono text-sm leading-6 resize-none focus:outline-none"
+          style={{
+            background: 'transparent',
+            color: 'rgba(255,255,255,0.82)',
+            caretColor: '#FB3640',
+          }}
         />
       </div>
     </div>

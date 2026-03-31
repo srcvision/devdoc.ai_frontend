@@ -1,19 +1,21 @@
 import axios from 'axios';
- 
+
+// ── Smart baseURL: uses local backend in development, Render in production ──
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const api = axios.create({
-  baseURL: "https://devdoc-ai-backend-2346.onrender.com/api",
+  baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 });
 
-// Inject token on every request (updated key: devdoc_token)
+// Inject token on every request
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('devdoc_token');
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
-// Handle 401 globally (token expired or invalid → force re-login)
+// Handle 401 globally (token expired / invalid → force re-login)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
