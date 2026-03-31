@@ -1,11 +1,11 @@
-# 🛡️ DevDoc.AI - Your Elite AI-Powered Code Companion
+# 🛡️ DevDoc.AI - AI-Powered SaaS Code Companion
 
 [![React 19](https://img.shields.io/badge/Frontend-React%2019-red?style=for-the-badge&logo=react)](https://react.dev/)
 [![Node.js](https://img.shields.io/badge/Backend-Node.js-black?style=for-the-badge&logo=nodedotjs)](https://nodejs.org/)
 [![Gemini 1.5](https://img.shields.io/badge/AI-Gemini%201.5%20Flash-red?style=for-the-badge&logo=google-gemini)](https://deepmind.google/technologies/gemini/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-black.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-> **Revolutionize your development workflow with AI-driven insights, security audits, and architectural analysis.**
+> ****DevDoc.AI** is a full-stack SaaS platform that acts as your automated technical consultant — analyzing code in real-time, catching bugs before they reach production, and surfacing security vulnerabilities before they're exploited.**
 
 [🚀 Live Demo](https://devdoc-ai-frontend.vercel.app/) • [📄 Project Wiki](#-what-is-devdocai) • [✨ Key Features](#-key-features) • [🛠️ Setup Guide](#🚀-getting-started)
 
@@ -13,10 +13,10 @@
 
 ## 📖 Table of Contents
 - [🌟 Introduction & What is DevDoc.AI](#-introduction--what-is-devdocai)
+- [🧠 The Problem → Solution](#-the-problem--solution)
 - [✨ Key Features & Visualizations](#-key-features--visualizations)
 - [🎨 UI & Animation Excellence](#-ui--animation-excellence)
 - [🔐 Authentication Flow](#-authentication-flow)
-- [🖼️ Project Preview](#️-project-preview)
 - [🚀 Tech Stack & System Architecture](#-tech-stack--system-architecture)
 - [📁 File Structure](#-file-structure)
 - [🛠️ Project Setup & Installation](#️-project-setup--installation)
@@ -37,6 +37,17 @@ Writing code is hard, but keeping that code healthy, secure, and easy to read is
 - "I can explain this complex function to you in plain English so you don't have to guess."
 
 Whether you are a student learning to code better or a professional trying to speed up your reviews, DevDoc.AI provides the **peace of mind** that your project is built on a solid, professional foundation.
+
+---
+
+## 🧠 The Problem → Solution
+
+| Pain Point | DevDoc.AI Solution |
+|---|---|
+| Slow manual code reviews | ⚡ Instant AI-driven analysis |
+| Missed security vulnerabilities | 🛡️ OWASP-aligned security scanning |
+| Undocumented codebases | 📄 Auto-generated code explanations |
+| No architectural visibility | 🏗️ Repo-level structural breakdown |
 
 ---
 
