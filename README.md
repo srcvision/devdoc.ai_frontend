@@ -1,234 +1,207 @@
-<div align="center">
+# 🛡️ DevDoc.AI - Your Elite AI-Powered Code Companion
 
-<h1>🛡️ DevDoc.AI</h1>
+[![React 19](https://img.shields.io/badge/Frontend-React%2019-red?style=for-the-badge&logo=react)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js-black?style=for-the-badge&logo=nodedotjs)](https://nodejs.org/)
+[![Gemini 1.5](https://img.shields.io/badge/AI-Gemini%201.5%20Flash-red?style=for-the-badge&logo=google-gemini)](https://deepmind.google/technologies/gemini/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-black.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-<p><strong>AI-Powered Code Intelligence Platform for Modern Developers</strong></p>
+> **Revolutionize your development workflow with AI-driven insights, security audits, and architectural analysis.**
 
-<p>
-  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
-  <img src="https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white" />
-  <img src="https://img.shields.io/badge/Gemini-1.5_Flash-4285F4?style=for-the-badge&logo=google&logoColor=white" />
-  <img src="https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" />
-</p>
-
-<p>
-  <a href="#-live-demo">🚀 Live Demo</a> •
-  <a href="#-key-features">✨ Features</a> •
-  <a href="#-tech-stack">🛠️ Stack</a> •
-  <a href="#-setup">⚙️ Setup</a> •
-  <a href="#-author">👤 Author</a>
-</p>
-
-<br/>
-
-> **DevDoc.AI** is a full-stack SaaS platform that acts as your automated technical consultant — analyzing code in real-time, catching bugs before they reach production, and surfacing security vulnerabilities before they're exploited.
-
-</div>
+[🚀 Live Demo](https://devdoc-ai-frontend.vercel.app/) • [📄 Project Wiki](#-what-is-devdocai) • [✨ Key Features](#-key-features) • [🛠️ Setup Guide](#🚀-getting-started)
 
 ---
 
-## 🧠 What Problem Does This Solve?
-
-Most developers ship code fast and do code reviews slow. Manual peer reviews are bottlenecked, security audits are expensive, and documentation is always an afterthought.
-
-**DevDoc.AI solves this by giving every developer an AI pair programmer that never sleeps.**
-
-| Pain Point | DevDoc.AI Solution |
-|---|---|
-| Slow manual code reviews | ⚡ Instant AI-driven analysis |
-| Missed security vulnerabilities | 🛡️ OWASP-aligned security scanning |
-| Undocumented codebases | 📄 Auto-generated code explanations |
-| No architectural visibility | 🏗️ Repo-level structural breakdown |
-
----
-
-## ✨ Key Features
-
-### 🔍 Code Review Engine
-Analyzes code for best practices, naming conventions, and maintainability issues — beyond what a linter can catch.
-
-### 🐛 Bug Detector
-Identifies logic errors, potential runtime exceptions, and edge cases using Gemini 1.5 Flash as the analysis backbone.
-
-### 🛡️ Security Scanner
-Maps code against known OWASP vulnerability patterns. Flags injection risks, insecure auth handling, exposed secrets, and more.
-
-### 📁 GitHub Repository Sync
-Connect your GitHub repo via REST API and run analysis across your entire codebase — not just paste snippets.
-
-### 📄 Code Explainer
-Generates plain-English walkthroughs of complex functions. Useful for onboarding, documentation, and learning unfamiliar code.
+## 📖 Table of Contents
+- [🌟 Introduction & What is DevDoc.AI](#-introduction--what-is-devdocai)
+- [✨ Key Features & Visualizations](#-key-features--visualizations)
+- [🎨 UI & Animation Excellence](#-ui--animation-excellence)
+- [🔐 Authentication Flow](#-authentication-flow)
+- [🖼️ Project Preview](#️-project-preview)
+- [🚀 Tech Stack & System Architecture](#-tech-stack--system-architecture)
+- [📁 File Structure](#-file-structure)
+- [🛠️ Project Setup & Installation](#️-project-setup--installation)
+- [👤 Author & Contributions](#-author--contributions)
+- [📝 License](#-license)
 
 ---
 
-## 🛠️ Tech Stack
+## 🌟 Introduction & What is DevDoc.AI?
 
-### Frontend
-| Technology | Role |
-|---|---|
-| React 19 + Vite | UI framework & bundler |
-| Tailwind CSS v3 | Utility-first styling |
-| Framer Motion | Animations & transitions |
-| Chart.js | Dashboard visualizations |
-| Lucide Icons | Icon system |
-| React Context API | Auth & theme state management |
+In simple terms, **DevDoc.AI** is like having a **Senior Software Engineer** sitting right next to you, reviewing your work 24/7. 
 
-### Backend
-| Technology | Role |
-|---|---|
-| Node.js + Express.js | REST API server |
-| MongoDB Atlas | Cloud database |
-| Mongoose | ODM / schema modeling |
-| JWT | Stateless authentication |
-| Google Generative AI SDK | Gemini 1.5 Flash integration |
-| Groq SDK | Alternative LLM inference |
+Writing code is hard, but keeping that code healthy, secure, and easy to read is even harder. As projects grow, it becomes easy to miss small bugs, leave security "doors" open, or let the codebase become so messy that nobody understands it anymore.
+
+**DevDoc.AI solves this by becoming your project's personal doctor.** You give it a piece of code or a link to your GitHub project, and it performs a "Full Body Scan." Within seconds, it tells you:
+- "Hey, this part of the code might crash under heavy load."
+- "Wait! You've left a security vulnerability here that a hacker could use."
+- "I can explain this complex function to you in plain English so you don't have to guess."
+
+Whether you are a student learning to code better or a professional trying to speed up your reviews, DevDoc.AI provides the **peace of mind** that your project is built on a solid, professional foundation.
+
+---
+
+## ✨ Key Features & Visualizations
+
+### 🚀 Advanced Toolset & Usage
+| Tool | What it Does | Why Use It? (Benefits) |
+| :--- | :--- | :--- |
+| **🔍 Code Review** | Deep analysis of code structure and style. | Improves readability and ensures you're following industry standards. |
+| **🐛 Bug Detector** | Scans for potential logic errors and runtime crashes. | Catch mistakes *before* they reach your users. |
+| **�️ Security Scanner** | Identifies vulnerabilities like SQL injection or data leaks. | Protects your user data and keeps your application safe from attacks. |
+| **⚡ Performance** | Checks for slow operations or memory-heavy code. | Makes your app faster and ensures it can handle many users. |
+| **📈 Code Quality** | Scores your code based on maintainability. | Tells you how easy it will be to change your code in the future. |
+| **� Architecture** | Analyzes how different parts of your app talk to each other. | Keeps your project organized so it doesn't become "spaghetti code." |
+| **📁 GitHub Sync** | Pulls and analyzes an entire repository instantly. | Get a high-level health report of any public project in seconds. |
+| **� Debug Assistant**| Analyzes error messages and stack traces. | Stops the "trial and error" loop and tells you exactly how to fix a crash. |
+| **📄 Code Explainer**| Translates complex logic into simple English. | Perfect for learning new languages or understanding old, messy code. |
+
+### 🔄 Project Workflow Visualization
+```mermaid
+graph LR
+    A[User Code] --> B{AI Optimizer}
+    B -- Identify Bugs --> C[Bug Report]
+    B -- Scan Security --> D[Security Audit]
+    B -- Analyze Path --> E[Performance Metrics]
+    C & D & E --> F[Integrated Dashboard]
+    F --> G((Final Documentation))
+```
+
+---
+
+## 🎨 UI & Animation Excellence
+
+DevDoc.AI is built with a **Premium Dark Aesthetic** that prioritizes focus and visual comfort.
+- **Glassmorphism**: Translucent navbars and cards with backdrop-blur effects.
+- **Micro-animations**: Smooth hover transitions and loading states powered by Framer Motion.
+- **Responsive Layout**: A fluid grid system that feels native on mobile and cinematic on ultra-wide monitors.
+- **Dynamic Charts**: Project health trends visualized through animated Chart.js instances.
 
 ---
 
 ## 🔐 Authentication Flow
 
+We implement a robust, stateless authentication system using JSON Web Tokens (JWT).
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Frontend
+    participant Backend
+    participant MongoDB
+
+    User->>Frontend: Enter Credentials
+    Frontend->>Backend: POST /api/auth/login
+    Backend->>MongoDB: Find User & Verify Hash
+    MongoDB-->>Backend: User Data
+    Backend-->>Frontend: JWT Access Token
+    Frontend->>User: Redirect to Dashboard
+    Note right of Frontend: Token stored in Secure Storage
 ```
-User → Login/Register
-       ↓
-   Express Auth Controller
-       ↓
-   Password hashed (bcrypt) → Stored in MongoDB
-       ↓
-   JWT issued (signed with JWT_SECRET)
-       ↓
-   Token stored on client (localStorage/cookie)
-       ↓
-   Protected routes → JWT middleware validates token
-       ↓
-   Access granted → AI tools unlocked
+
+---
+---
+
+## 🚀 Tech Stack & System Architecture
+
+### 🛠️ Core Technologies
+- **Frontend**: `React 19`, `Vite`, `Tailwind CSS v3`, `Lucide Icons`
+- **Backend**: `Node.js`, `Express.js`, `Mongoose`
+- **AI Engine**: `Google Generative AI (Gemini 1.5 Flash)`, `Groq SDK`
+- **Database**: `MongoDB Atlas` (Cloud)
+- **State Management**: `React Context API`
+
+### 🏗️ System "Tree" Visualization
+```mermaid
+graph TD
+    Root[DevDoc.AI Root]
+    Root --> Client[Frontend React]
+    Root --> Server[Backend Node]
+    Client --> Pages[Pages & Context]
+    Client --> API[Axios Interceptors]
+    Server --> Controllers[Business Logic]
+    Server --> Models[DB Schemas]
+    Server --> Services[Gemini Orchestration]
+    Services --> Gemini((Gemini 1.5 Flash))
 ```
 
 ---
 
-## 📁 Project Structure
+## 📁 File Structure
 
-```
-devdoc-ai/
-├── backend/
-│   ├── config/          # DB connections, env config
-│   ├── controllers/     # AI analysis logic, auth handlers
-│   ├── middleware/      # JWT verification, error handling
-│   ├── models/          # User & Report Mongoose schemas
-│   ├── services/        # Gemini API service layer
-│   └── server.js        # Express app entry point
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/  # Navbar, Sidebar, Editor, Cards
-│   │   ├── context/     # AuthContext, ThemeContext
-│   │   ├── pages/       # Dashboard, Tools, Landing
-│   │   └── utils/       # API helpers, constants
-│   └── tailwind.config.js
-│
-└── docs/                # Screenshots, architecture diagrams
+```text
+devdoctor-ai/
+├── 📁 backend/
+│   ├── 📁 config/          # Database & Cloud connections
+│   ├── 📁 controllers/     # AI Logic & Auth handlers
+│   ├── 📁 middleware/      # JWT & Error handlers
+│   ├── 📁 models/          # User & Report schemas
+│   ├── 📁 services/        # Gemini API integration
+│   └── 📄 server.js        # Main entry point
+├── 📁 frontend/
+│   ├── 📁 src/
+│   │   ├── 📁 components/  # Layouts, Sidebar, Editor
+│   │   ├── 📁 context/     # Auth & Theme states
+│   │   └── 📁 pages/       # Dashboard & AI Tool views
+│   └── 📄 tailwind.config.js
+└── � docs/                # Assets & Documentation
 ```
 
 ---
 
-## ⚙️ Setup & Installation
+## �️ Project Setup & Installation
 
-### Prerequisites
-- Node.js 18+
-- MongoDB (local or Atlas cloud cluster)
-- Gemini API Key → [Get it here](https://aistudio.google.com/)
+### 1️⃣ Prerequisites
+- **Node.js 18+** installed
+- **MongoDB** (Local or Atlas Atlas)
+- **Gemini API Key** from [Google AI Studio](https://aistudio.google.com/)
 
-### 1. Clone the Repo
+### 2️⃣ Installation Steps
+
+**Clone the repository:**
 ```bash
-git clone https://github.com/srcvision/devdoc-ai.git
-cd devdoc-ai
+git clone https://github.com/your-username/devdoctor-ai.git
+cd devdoctor-ai
 ```
 
-### 2. Backend Setup
+**Set up Backend:**
 ```bash
 cd backend
 npm install
-```
-
-Create a `.env` file in `/backend`:
-```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_super_secret_key
-GEMINI_API_KEY=your_gemini_api_key
-```
-
-Start the server:
-```bash
+# Create .env and add your MONGO_URI, JWT_SECRET, and GEMINI_API_KEY
 npm start
 ```
 
-### 3. Frontend Setup
+**Set up Frontend:**
 ```bash
 cd ../frontend
 npm install
 npm run dev
 ```
 
-App runs at `http://localhost:5173` by default.
+---
+
+## 👤 Author & Contributions
+
+### 👨‍💻 Author
+**Saurav Chaudhari**
+- 🌐 [Portfolio](https://yourportfolio.com)
+- 💼 [LinkedIn](https://www.linkedin.com/in/saurav-chaudhari-1ab838265/)
+- 📧 [Email](mailto:srchaudhari0806@gmail.com)
+
+### 🤝 Contributing
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-## 🖼️ Screenshots
+## � License
 
-> *(Add your actual screenshots here — Landing, Dashboard, Code Review UI)*
-
-| Landing Page | Dashboard | Security Scan |
-|---|---|---|
-| ![Landing](./docs/landing.png) | ![Dashboard](./docs/dashboard.png) | ![Security](./docs/security.png) |
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ---
-
-## 🗺️ Roadmap
-
-- [x] JWT Authentication
-- [x] Code Review via Gemini
-- [x] Bug Detection
-- [x] Security Scanner
-- [x] GitHub Repo Sync
-- [ ] VS Code Extension integration
-- [ ] Team workspaces & shared reports
-- [ ] PR comment bot (GitHub Actions)
-- [ ] Support for GPT-4o as alternative model
-
----
-
-## 👤 Author
-
-**Saurav Chaudhari** — Full Stack Developer
-
-- 🌐 Portfolio: [your-portfolio.com](https://your-portfolio.com)
-- 💼 LinkedIn: [linkedin.com/in/saurav-chaudhari-1ab838265](https://linkedin.com/in/saurav-chaudhari-1ab838265)
-- 🐙 GitHub: [github.com/srcvision](https://github.com/srcvision)
-- 📧 Email: your@email.com
-
----
-
-## 🤝 Contributing
-
-Contributions welcome. Open an issue first to discuss changes before submitting a PR.
-
-```bash
-# Standard flow
-git checkout -b feature/your-feature
-git commit -m "feat: describe what you added"
-git push origin feature/your-feature
-# → Open Pull Request
-```
-
----
-
-## 📝 License
-
-Distributed under the **MIT License**. See [`LICENSE`](./LICENSE) for details.
-
----
-
-<div align="center">
-  <sub>Built by <a href="https://github.com/srcvision">Saurav Chaudhari</a> · Powered by Gemini 1.5 Flash</sub>
-</div>
+**Crafted with precision for the modern developer ecosystem.**
